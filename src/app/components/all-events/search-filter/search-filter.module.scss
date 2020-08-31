@@ -1,0 +1,38 @@
+.search-filter {
+  width: 15rem;
+  position: relative;
+  padding-bottom: 3rem;
+
+  @media only screen and (max-width: 720px) {
+    width: 100%;
+  }
+
+  @media only screen and (min-width: 721px) {
+    padding: 0 2rem 0 0;
+  }
+
+  input {
+    &[type='text'] {
+      border: none;
+      outline: none;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  .only-free {
+    padding: 1rem 0;
+  }
+
+  .checkbox-wrapper {
+    display: flex;
+    align-items: center;
+
+    label {
+      font-size: 0.8rem;
+    }
+  }
+}

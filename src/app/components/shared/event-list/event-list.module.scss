@@ -1,0 +1,33 @@
+.events-chunk {
+  flex: 1;
+
+  .chunk-list {
+    padding-bottom: 4rem;
+
+    .chunk-item-header {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding-bottom: 1rem;
+      color: #718096;
+    }
+  }
+
+  .chunk-list-end {
+    display: flex;
+    justify-content: center;
+
+    .loadmore-btn {
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      margin: 0 auto;
+      background-color: transparent;
+
+      &:hover {
+        color: #9b6250;
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+.popup {
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .popup-content {
+    padding: 1rem;
+    z-index: 20;
+    background-color: #ffffff;
+    width: 25rem;
+
+    @media only screen and (max-width: 500px) {
+      width: 85%;
+    }
+
+    h3 {
+      font-weight: 600;
+      margin: 0 0 1rem;
+      padding: 0 0 1rem;
+      border-bottom: 1px solid #cdcdcd;
+    }
+
+    input {
+      outline: none;
+      width: 100%;
+      padding: 0.5rem;
+      box-sizing: border-box;
+      margin-bottom: 1rem;
+    }
+
+    div {
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        border: 2px solid #1d7fa9;
+        color: #1d7fa9;
+        background-color: transparent;
+        outline: none;
+        padding: 0.5rem 1rem;
+        margin-left: 0.5rem;
+        cursor: pointer;
+        font-weight: 600;
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.all-events {
+  display: flex;
+
+  @media only screen and (max-width: 720px) {
+    flex-flow: column;
+  }
+
+  em {
+    padding-left: 3em;
+  }
+}

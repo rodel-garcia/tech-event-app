@@ -1,0 +1,32 @@
+.app {
+  width: 1140px;
+  max-width: 96.75%;
+  margin: 0 auto;
+
+  header {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+
+    @media only screen and (min-width: 721px) {
+      padding: 0 3em;
+    }
+
+    img {
+      height: 100%;
+    }
+  }
+
+  main {
+    background-color: #edf2f7;
+    padding: 1.5rem 3rem;
+    margin-bottom: 3rem;
+
+    @media only screen and (min-width: 721px) {
+      min-height: 120vh;
+    }
+  }
+}

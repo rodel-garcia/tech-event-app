@@ -1,0 +1,56 @@
+.event-item {
+  background-color: #ffffff;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0.3rem 0.5rem #cdcdcd;
+  border-radius: 0.25rem;
+
+  .item-block-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .title {
+      margin: 0;
+      font-weight: 700;
+    }
+    .sign-up-btn {
+      border: 2px solid #1d7fa9;
+      font-weight: 600;
+      background-color: transparent;
+      color: #1d7fa9;
+      padding: 0.5rem;
+      outline: none;
+      cursor: pointer;
+      min-width: 4.375rem;
+    }
+
+    .cancel-event-btn {
+      border: 2px solid #b1533b;
+      font-weight: 600;
+      background-color: transparent;
+      color: #b1533b;
+      padding: 0.5rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .registered {
+      color: #098332;
+      font-size: 0.8rem;
+    }
+  }
+
+  .item-block-2 {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+    font-size: 0.8rem;
+    color: #718096;
+
+    .city {
+      display: block;
+      width: 7rem;
+    }
+  }
+}
