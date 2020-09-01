@@ -1,15 +1,17 @@
+@import '../../../variables.scss';
+
 .main-nav {
   display: inline-flex;
 
   a {
     padding: 2em 1em;
     text-decoration: none;
-    font-weight: 600;
     color: #8f8f8f;
     font-size: 0.8em;
 
     &.active {
-      color: #aed5fd;
+      font-weight: 600;
+      color: $light-blue;
     }
   }
 }

@@ -1,8 +1,13 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faGlobeEurope,
+  faHourglassHalf,
+  faClock,
+} from '@fortawesome/free-solid-svg-icons';
 
 import { TechEvent } from '../../../app.types';
 import { LOCALSTORAGE_KEY_PREFFIX } from '../../../app.constant';
-
 import FreeTag from '../free-tag/free-tag';
 
 import style from './event-list-item.module.scss';
@@ -12,43 +17,69 @@ const EventListItem: React.FC<{
   onSignup: Function;
   onCancelEvent?: Function | undefined;
 }> = ({ event, onSignup, onCancelEvent }) => {
-  const duration = getEventTotalDuration(event.startDate, event.endDate);
-  const timeRange = getEventTimeRange(event.startDate, event.endDate);
   return (
     <div className={style['event-item']}>
-      <div className={style['item-block-1']}>
-        <h3 className={style['title']}>
-          {event.isFree && <FreeTag />}
-          {event.name}
-        </h3>
-        {!isRegistered(event.id) ? (
-          <button
-            className={style['sign-up-btn']}
-            onClick={() => onSignup(event)}
-          >
-            Sign up
-          </button>
-        ) : onCancelEvent !== undefined ? (
-          <button
-            className={style['cancel-event-btn']}
-            onClick={() => onCancelEvent(event.id)}
-          >
-            Cancel
-          </button>
-        ) : (
-          <span className={style['registered']}>Registered</span>
-        )}
-      </div>
-      <div className={style['item-block-2']}>
-        <span className={style['city']}>{event.city}</span>
-        <span className={style['duration']}>{duration}</span>
-        <span className={style['time-range']}>{timeRange}</span>
-      </div>
+      <FirstBlock
+        event={event}
+        onSignup={onSignup}
+        onCancelEvent={onCancelEvent}
+      />
+      <SecondBlock event={event} />
     </div>
   );
 };
 
 export default EventListItem;
+
+const FirstBlock: React.FC<{
+  event: TechEvent;
+  onSignup: Function;
+  onCancelEvent: Function | undefined;
+}> = ({ event, onSignup, onCancelEvent }) => {
+  return (
+    <div className={style['item-block-1']}>
+      <h3 className={style['title']}>
+        {event.isFree && <FreeTag />}
+        {event.name}
+      </h3>
+      {!isRegistered(event.id) ? (
+        <button
+          className={style['sign-up-btn']}
+          onClick={() => onSignup(event)}
+        >
+          Sign up
+        </button>
+      ) : onCancelEvent !== undefined ? (
+        <button
+          className={style['cancel-event-btn']}
+          onClick={() => onCancelEvent(event.id)}
+        >
+          Cancel
+        </button>
+      ) : (
+        <span className={style['registered']}>Registered</span>
+      )}
+    </div>
+  );
+};
+
+const SecondBlock: React.FC<{ event: TechEvent }> = ({ event }) => {
+  const duration = getEventTotalDuration(event.startDate, event.endDate);
+  const timeRange = getEventTimeRange(event.startDate, event.endDate);
+  return (
+    <div className={style['item-block-2']}>
+      <span className={style['city']}>
+        <FontAwesomeIcon icon={faGlobeEurope} /> {event.city}
+      </span>
+      <span className={style['duration']}>
+        <FontAwesomeIcon icon={faHourglassHalf} /> {duration}
+      </span>
+      <span className={style['time-range']}>
+        <FontAwesomeIcon icon={faClock} /> {timeRange}
+      </span>
+    </div>
+  );
+};
 
 const isRegistered = (eventId: number) => {
   return (

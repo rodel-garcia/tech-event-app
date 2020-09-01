@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .event-item {
   background-color: #ffffff;
   padding: 1rem;
@@ -14,11 +16,14 @@
       margin: 0;
       font-weight: 700;
     }
+    button {
+      margin-left: 0.5rem;
+    }
     .sign-up-btn {
-      border: 2px solid #1d7fa9;
+      border: 2px solid $light-blue;
       font-weight: 600;
       background-color: transparent;
-      color: #1d7fa9;
+      color: $light-blue;
       padding: 0.5rem;
       outline: none;
       cursor: pointer;
@@ -26,10 +31,10 @@
     }
 
     .cancel-event-btn {
-      border: 2px solid #b1533b;
+      border: 2px solid $dark-red;
       font-weight: 600;
       background-color: transparent;
-      color: #b1533b;
+      color: $dark-red;
       padding: 0.5rem;
       outline: none;
       cursor: pointer;
@@ -38,6 +43,7 @@
     .registered {
       color: #098332;
       font-size: 0.8rem;
+      margin-left: 0.5rem;
     }
   }
 
@@ -48,9 +54,17 @@
     font-size: 0.8rem;
     color: #718096;
 
+    span {
+      flex: 1;
+    }
     .city {
-      display: block;
-      width: 7rem;
+      text-align: left;
+    }
+    .duration {
+      text-align: center;
+    }
+    .time-range {
+      text-align: right;
     }
   }
 }

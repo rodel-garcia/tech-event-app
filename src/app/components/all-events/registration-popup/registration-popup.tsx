@@ -48,49 +48,50 @@ const RegistrationPopup: React.FC<PopupProps> = ({ techEvent, onClose }) => {
     <div className={style.popup}>
       <div className={style['popup-content']}>
         <form onSubmit={(e) => onSubmit(e)}>
-          <span>Signup for:</span>
           <h3>{techEvent?.name}</h3>
-          <input
-            type='text'
-            name='firstName'
-            placeholder='First Name'
-            value={state.firstName}
-            required
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(event)
-            }
-          />
-          <input
-            type='text'
-            name='lastName'
-            placeholder='Last Name'
-            value={state.lastName}
-            required
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(event)
-            }
-          />
-          <input
-            type='email'
-            name='email'
-            placeholder='Email'
-            value={state.email}
-            required
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(event)
-            }
-          />
-          <input
-            type='number'
-            name='contactNumber'
-            placeholder='Contact Number'
-            value={state.contactNumber}
-            required
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(event)
-            }
-          />
-          <div>
+          <div className={style['field-wrapper']}>
+            <input
+              type='text'
+              name='firstName'
+              placeholder='First Name'
+              value={state.firstName}
+              required
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(event)
+              }
+            />
+            <input
+              type='text'
+              name='lastName'
+              placeholder='Last Name'
+              value={state.lastName}
+              required
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(event)
+              }
+            />
+            <input
+              type='email'
+              name='email'
+              placeholder='Email'
+              value={state.email}
+              required
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(event)
+              }
+            />
+            <input
+              type='number'
+              name='contactNumber'
+              placeholder='Contact Number'
+              value={state.contactNumber}
+              required
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(event)
+              }
+            />
+          </div>
+          <div className={style['button-wrapper']}>
             <button onClick={() => onClose()}>Cancel</button>
             <button type='submit'>Register</button>
           </div>

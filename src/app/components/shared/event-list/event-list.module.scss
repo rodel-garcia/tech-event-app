@@ -22,11 +22,12 @@
       border: none;
       cursor: pointer;
       outline: none;
-      margin: 0 auto;
+      margin: -2rem 0 1rem;
       background-color: transparent;
+      color: #cdcdcd;
 
       &:hover {
-        color: #9b6250;
+        color: #ababab;
       }
     }
   }

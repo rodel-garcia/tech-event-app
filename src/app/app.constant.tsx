@@ -1,4 +1,4 @@
-export const EVENTS_API_URL = 'http://localhost:8000/events/';
+export const EVENTS_API_URL = 'http://localhost:8000/events';
 export const DATA_LENGTH_LIMIT = 5;
 export const SEARCH_FILTER_DEBOUNCE_TIME = 1000;
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
 import { TechEvent } from '../../../app.types';
 import { DATE } from '../../../app.constant';
 
@@ -52,7 +53,7 @@ const EventList: React.FC<{
               onClick={() => onLoadMore()}
               className={style['loadmore-btn']}
             >
-              ... Load more ...
+              <FontAwesomeIcon icon={faAngleDoubleDown} size='3x' />
             </button>
           </div>
         )}
