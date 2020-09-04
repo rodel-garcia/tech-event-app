@@ -1,6 +1,6 @@
 @import '../../../variables.scss';
 
-.popup {
+.signup-form-popup {
   z-index: 10;
   height: 100%;
   width: 100%;
@@ -22,25 +22,38 @@
     @media only screen and (max-width: 500px) {
       width: 85%;
     }
+
     form {
       h3 {
         font-weight: 600;
-        margin: 0 0 1rem;
         padding: 0 0 1rem;
         border-bottom: 1px solid #cdcdcd;
       }
 
-      .field-wrapper {
+      .fields-container {
         padding: 1rem 0 2rem;
 
-        input {
-          outline: none;
-          width: 100%;
-          padding: 0.5rem;
-          box-sizing: border-box;
+        .field-wrapper {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          min-height: 3.5rem;
           margin-bottom: 1rem;
-          border: none;
-          border-bottom: 1px solid #ababab;
+
+          input {
+            outline: none;
+            width: 100%;
+            padding: 0.5rem;
+            box-sizing: border-box;
+            border: none;
+            border-bottom: 1px solid #ababab;
+          }
+
+          .error-message {
+            color: $dark-red;
+            font-size: 0.7rem;
+            padding: 0.25rem;
+          }
         }
       }
 
@@ -61,6 +74,12 @@
           &:not([type='submit']) {
             border: 2px solid $dark-red;
             color: $dark-red;
+          }
+
+          &[disabled] {
+            color: #cdcdcd;
+            border: 2px solid #cdcdcd;
+            cursor: default;
           }
         }
       }

@@ -53,7 +53,7 @@ class MyEvents extends React.Component<{}, MyEventsState> {
       .then((res) => {
         _.forEach(ids, (id) => {
           const event = res.data.find((event: TechEvent) => event.id === id);
-          eventsList.push(event as TechEvent);
+          event && eventsList.push(event as TechEvent);
         });
         this.setState({ eventsList, isLoading: false });
       })
@@ -75,7 +75,9 @@ class MyEvents extends React.Component<{}, MyEventsState> {
             onCancelEvent={this._onCancelEvent}
           />
         ) : (
-          <em>Your list is empty</em>
+          <span>
+            You don't have any signed-up event yet. please choose one.
+          </span>
         )}
       </div>
     );

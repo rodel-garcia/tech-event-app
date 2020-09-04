@@ -17,11 +17,11 @@ const App: React.FC = () => {
   return (
     <div className={style.app}>
       <Router>
-        <header>
+        <header className={style.header}>
           <img src={logo} alt='logo' />
           <MainNav></MainNav>
         </header>
-        <main>
+        <main className={style.main}>
           <Switch>
             <Route path='/' exact component={AllEvents} />
             <Route path='/my-events' exact component={MyEvents} />

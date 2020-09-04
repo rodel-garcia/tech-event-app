@@ -3,7 +3,7 @@
   max-width: 96.75%;
   margin: 0 auto;
 
-  header {
+  .header {
     height: 4rem;
     display: flex;
     align-items: center;
@@ -20,7 +20,7 @@
     }
   }
 
-  main {
+  .main {
     background-color: #edf2f7;
     padding: 1.5rem 3rem;
     margin-bottom: 3rem;

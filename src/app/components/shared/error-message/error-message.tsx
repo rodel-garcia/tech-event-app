@@ -3,13 +3,16 @@ import { AxiosError } from 'axios';
 
 const ErrorMessage: React.FC<{ error: AxiosError }> = ({ error }) => {
   if (error.response) {
-    console.log(error.response.data);
-    console.log(error.response.status);
-    console.log(error.response.headers);
+    // Handle response error
+    // console.log(error.response.data);
+    // console.log(error.response.status);
+    // console.log(error.response.headers);
   } else if (error.request) {
-    console.log(error.request);
+    // Handle request error
+    // console.log(error.request);
   } else {
-    console.log('Error', error.message);
+    // Handle any error
+    // console.log(error.message);
   }
   return (
     <div className='error-message'>

@@ -1,12 +1,15 @@
 import React from 'react';
 import _ from 'lodash';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
+
 import { TechEvent } from '../../../app.types';
 import { DATE } from '../../../app.constant';
 
 import EventListItem from '../event-list-item/event-list-item';
-import RegistrationPopup from '../../all-events/registration-popup/registration-popup';
+import SignupFormPopup from '../../all-events/signup-form-popup/signup-form-popup';
+
 import style from './event-list.module.scss';
 
 const EventList: React.FC<{
@@ -16,47 +19,74 @@ const EventList: React.FC<{
   onCancelEvent?: Function | undefined;
 }> = ({ events, isShowMoreVisible, onLoadMore = () => {}, onCancelEvent }) => {
   const chunkedEvents = getChunkedEvents(events);
-  const [popup, togglePopup] = React.useState<boolean>(false);
-  const [techEvent, setTechEvent] = React.useState<TechEvent | null>(null);
+  const [state, setState] = React.useState<{
+    isPopupVisible: boolean;
+    techEvent: TechEvent | null;
+  }>({
+    isPopupVisible: false,
+    techEvent: null,
+  });
+
+  const onSignup = (techEvent: TechEvent) =>
+    setState({ ...state, techEvent, isPopupVisible: !state.isPopupVisible });
+
+  const renderPopup = () => {
+    return (
+      state.isPopupVisible && (
+        <SignupFormPopup
+          techEvent={state.techEvent as TechEvent}
+          onClose={() =>
+            setState({ ...state, isPopupVisible: !state.isPopupVisible })
+          }
+        />
+      )
+    );
+  };
+
+  const renderListEnd = () => {
+    return (
+      isShowMoreVisible && (
+        <div className={style['chunk-list-end']}>
+          <button
+            onClick={() => onLoadMore()}
+            className={style['loadmore-btn']}
+          >
+            <FontAwesomeIcon icon={faAngleDoubleDown} size='3x' />
+          </button>
+        </div>
+      )
+    );
+  };
+
+  const renderEventsList = (events: TechEvent[]) => {
+    return _.map(events, (event) => (
+      <EventListItem
+        key={event.id}
+        event={event}
+        onSignup={() => onSignup(event)}
+        onCancelEvent={onCancelEvent}
+      />
+    ));
+  };
+
+  const renderChunkEvents = () => {
+    return _.map(chunkedEvents, (events, i) => {
+      const chunkDate = getChunkDateString(new Date(events[0].startDate));
+      return (
+        <div key={i} className={style['chunk-list']}>
+          <span className={style['chunk-item-header']}>{chunkDate}</span>
+          {renderEventsList(events)}
+        </div>
+      );
+    });
+  };
 
   return (
     <>
-      {popup && (
-        <RegistrationPopup
-          techEvent={techEvent as TechEvent}
-          onClose={() => togglePopup(!popup)}
-        />
-      )}
+      {renderPopup()}
       <div className={style['events-chunk']}>
-        {chunkedEvents.map((events, i) => {
-          const chunkDate = getChunkDateString(new Date(events[0].startDate));
-          return (
-            <div key={i} className={style['chunk-list']}>
-              <span className={style['chunk-item-header']}>{chunkDate}</span>
-              {events.map((event) => (
-                <EventListItem
-                  key={event.id}
-                  event={event}
-                  onSignup={(event: TechEvent) => {
-                    setTechEvent(event);
-                    togglePopup(!popup);
-                  }}
-                  onCancelEvent={onCancelEvent}
-                />
-              ))}
-            </div>
-          );
-        })}
-        {isShowMoreVisible && (
-          <div className={style['chunk-list-end']}>
-            <button
-              onClick={() => onLoadMore()}
-              className={style['loadmore-btn']}
-            >
-              <FontAwesomeIcon icon={faAngleDoubleDown} size='3x' />
-            </button>
-          </div>
-        )}
+        {renderChunkEvents()}
+        {renderListEnd()}
       </div>
     </>
   );

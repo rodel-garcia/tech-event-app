@@ -1,6 +1,6 @@
 import React from 'react';
-import { FilterValues, FilterNames } from '../../../app.types';
 
+import { FilterValues, FilterNames } from '../../../app.types';
 import FreeTag from '../../shared/free-tag/free-tag';
 import style from './search-filter.module.scss';
 
@@ -9,7 +9,7 @@ const SearchFilter: React.FC<{
   values: FilterValues;
 }> = ({ onFilter, values }) => {
   return (
-    <div className={style['search-filter']}>
+    <aside className={style['search-filter']}>
       {renderTextBox(values.name, FilterNames.NAME, onFilter)}
       {renderTextBox(values.city, FilterNames.CITY, onFilter)}
       <div className={style['only-free']}>
@@ -19,7 +19,7 @@ const SearchFilter: React.FC<{
       {renderCheckBox(values.afternoon, FilterNames.AFTERNOON, onFilter)}
       {renderCheckBox(values.evening, FilterNames.EVENING, onFilter)}
       {renderCheckBox(values.night, FilterNames.NIGHT, onFilter)}
-    </div>
+    </aside>
   );
 };
 
@@ -69,9 +69,9 @@ const FilterCheckBox: React.FC<{
       />
       <label htmlFor={name}>
         {name === FilterNames.ONLY_FREE ? (
-          <>
+          <span>
             Only <FreeTag />
-          </>
+          </span>
         ) : (
           name
         )}

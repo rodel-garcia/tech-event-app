@@ -2,7 +2,7 @@ export type TechEvent = {
   id: number;
   isFree: boolean;
   name: string;
-  city: number;
+  city: string;
   startDate: string;
   endDate: string;
 };

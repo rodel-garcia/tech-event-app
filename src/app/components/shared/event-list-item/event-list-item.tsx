@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faGlobeEurope,
@@ -8,6 +9,7 @@ import {
 
 import { TechEvent } from '../../../app.types';
 import { LOCALSTORAGE_KEY_PREFFIX } from '../../../app.constant';
+
 import FreeTag from '../free-tag/free-tag';
 
 import style from './event-list-item.module.scss';
@@ -43,23 +45,41 @@ const FirstBlock: React.FC<{
         {event.name}
       </h3>
       {!isRegistered(event.id) ? (
-        <button
-          className={style['sign-up-btn']}
-          onClick={() => onSignup(event)}
-        >
-          Sign up
-        </button>
+        <SignupButton onSignup={onSignup} techEvent={event} />
       ) : onCancelEvent !== undefined ? (
-        <button
-          className={style['cancel-event-btn']}
-          onClick={() => onCancelEvent(event.id)}
-        >
-          Cancel
-        </button>
+        <CancelButton onCancelEvent={onCancelEvent} techEvent={event} />
       ) : (
         <span className={style['registered']}>Registered</span>
       )}
     </div>
+  );
+};
+
+const SignupButton: React.FC<{ onSignup: Function; techEvent: TechEvent }> = ({
+  onSignup,
+  techEvent,
+}) => {
+  return (
+    <button
+      className={style['sign-up-btn']}
+      onClick={() => onSignup(techEvent)}
+    >
+      Sign up
+    </button>
+  );
+};
+
+const CancelButton: React.FC<{
+  onCancelEvent: Function;
+  techEvent: TechEvent;
+}> = ({ onCancelEvent, techEvent }) => {
+  return (
+    <button
+      className={style['cancel-event-btn']}
+      onClick={() => onCancelEvent(techEvent.id)}
+    >
+      Cancel
+    </button>
   );
 };
 

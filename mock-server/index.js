@@ -7,5 +7,5 @@ module.exports = () => {
     event.city = citiesData.find((city) => city.id === event.city).name;
   });
 
-  return { events: eventsData };
+  return { events: eventsData, events_length: { total: eventsData.length } };
 };

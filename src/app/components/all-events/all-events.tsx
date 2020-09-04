@@ -1,10 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import {
   SEARCH_FILTER_DEBOUNCE_TIME,
   DATA_LENGTH_LIMIT,
+  EVENTS_TOTAL_API_URL,
 } from '../../app.constant';
 import {
   TechEvent,
@@ -12,17 +13,19 @@ import {
   FilterValues,
   FilterNames,
 } from '../../app.types';
+
 import techEventApi from '../../api/tech-event';
 
 import SearchFilter from './search-filter/search-filter';
 import EventList from '../shared/event-list/event-list';
 import Spinner from '../shared/spinner/spinner';
-
-import style from './all-events.module.scss';
 import ErrorMessage from '../shared/error-message/error-message';
 
+import style from './all-events.module.scss';
+
 type AllEventState = {
-  events: TechEvent[] | null;
+  eventsList: TechEvent[] | null;
+  eventsForFilter: TechEvent[] | null;
   isLoading: boolean;
   isFiltering: boolean | null;
   filter: FilterValues;
@@ -32,7 +35,8 @@ type AllEventState = {
 
 class AllEvents extends React.Component<{}, AllEventState> {
   state: AllEventState = {
-    events: null,
+    eventsList: null,
+    eventsForFilter: null,
     isLoading: false,
     isFiltering: null,
     totalLength: 0,
@@ -112,7 +116,7 @@ class AllEvents extends React.Component<{}, AllEventState> {
         ? [17, 21]
         : [21, 6];
     val
-      ? this._fetchEventsData({}, { startingHour, endingHour })
+      ? this._manageFilter(startingHour, endingHour)
       : this._setInitialState();
   }
 
@@ -155,21 +159,39 @@ class AllEvents extends React.Component<{}, AllEventState> {
     }) as TechEvent[];
   }
 
+  private _manageFilter(startingHour: number, endingHour: number) {
+    this.setState({ isLoading: true, isFiltering: true });
+    if (this.state.eventsForFilter?.length) {
+      const filteredData = this._applyDayFilter(this.state.eventsForFilter, {
+        startingHour,
+        endingHour,
+      });
+      this.setState({
+        eventsList: filteredData as TechEvent[],
+        isLoading: false,
+      });
+    } else {
+      this._fetchEventsData({}, { startingHour, endingHour });
+    }
+  }
+
   private _fetchEventsData = async (
     params?: RequestParams,
     filter?: { startingHour: number; endingHour: number }
   ) => {
-    let filteredData: TechEvent[] | null = null;
+    let filteredData: TechEvent[] | null;
     this.setState({ isLoading: true });
     techEventApi
       .get('/', { params })
       .then((response) => {
         if (filter) {
-          this.setState({ isFiltering: true });
           filteredData = this._applyDayFilter(response.data, filter);
         }
         this.setState({
-          events: filteredData || (response.data as TechEvent[]),
+          eventsList: filteredData || (response.data as TechEvent[]),
+          eventsForFilter: filteredData
+            ? response.data
+            : this.state.eventsForFilter,
           isLoading: false,
         });
       })
@@ -179,10 +201,10 @@ class AllEvents extends React.Component<{}, AllEventState> {
   };
 
   private _setTotalLength = () => {
-    techEventApi
-      .get('/')
+    axios
+      .get(EVENTS_TOTAL_API_URL)
       .then((res) => {
-        this.setState({ totalLength: res.data.length });
+        this.setState({ totalLength: res.data.total });
       })
       .catch((e: AxiosError) => {
         this.setState({ error: e, isLoading: false });
@@ -191,26 +213,26 @@ class AllEvents extends React.Component<{}, AllEventState> {
 
   private _onLoadmore = () => {
     this.setState({ isLoading: true });
-    const { events } = this.state;
+    const { eventsList } = this.state;
+    const params = {
+      _start: eventsList?.length,
+      _end: (eventsList?.length || 0) + DATA_LENGTH_LIMIT,
+    };
     techEventApi
-      .get('/', {
-        params: {
-          _start: events?.length,
-          _end: (events?.length || 0) + DATA_LENGTH_LIMIT,
-        },
-      })
-      .then((res) => {
+      .get('/', { params })
+      .then((res) =>
         this.setState({
-          events: _.concat(this.state.events, res.data),
+          eventsList: _.concat(eventsList, res.data),
           isLoading: false,
-        });
-      })
+        })
+      )
       .catch((e: AxiosError) => {
         this.setState({ error: e, isLoading: false });
       });
   };
 
   render() {
+    const { eventsList } = this.state;
     return (
       <div className={style['all-events']}>
         <SearchFilter onFilter={this._onFilter} values={this.state.filter} />
@@ -218,17 +240,17 @@ class AllEvents extends React.Component<{}, AllEventState> {
           <Spinner />
         ) : this.state.error ? (
           <ErrorMessage error={this.state.error} />
-        ) : this.state.events && this.state.events.length ? (
+        ) : eventsList && eventsList.length ? (
           <EventList
-            events={this.state.events}
+            events={eventsList}
             onLoadMore={this._onLoadmore}
             isShowMoreVisible={
               !this.state.isFiltering &&
-              this.state.totalLength > this.state.events.length
+              this.state.totalLength > eventsList.length
             }
           />
         ) : (
-          <em>No results found</em>
+          <em>No result found</em>
         )}
       </div>
     );
